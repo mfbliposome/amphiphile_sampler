@@ -16,9 +16,9 @@ sampleConcentrations[
 ]
 
 (*compute a single dispense volume*)
-dispenseVolume[
+computeVolume[
   ci_?NumericQ,
-  stocks_:{50,10,2},(*available stock solutions in mM *)
+  stocks_:{50, 10, 2},(*available stock solutions in mM *)
   maxMinVol_:{{4,20},{4,20},{0,20}},(*allowed dispense volumes range in uL*)
   finalVol_:200 (* final volume in uL *)
   ]:=Module[{proposedVolumes,allowedStocks},
@@ -29,9 +29,13 @@ dispenseVolume[
 ]
 
 (*compute dispense volumes for the whole sample*)
-dispenseVolume[
+computeVolume[
   c_?VectorQ,
   stocks_:{{50,10,2},{50,10,2},{50,10,2},{50,10,2},{50,10,2},{15,3},{10,2}},
   maxMinVol_:{{{4,20},{4,20},{0,20}},{{4,20},{4,20},{0,20}},{{4,20},{4,20},{0,20}},{{4,20},{4,20},{0,20}},{{4,20},{4,20},{0,20}},{{4,20},{0,20}},{{4,20},{0,20}}},
   finalVol_:200]:=
-	MapThread[ dispenseVolume[#1,#2,#3,finalVol]&,{c,stocks,maxMinVol}]//Flatten
+	MapThread[ computeVolume[#1,#2,#3,finalVol]&, {c, stocks, maxMinVol}]//Flatten
+	
+(* discretize volumes to an interval *)
+discretizeVolume[increment_][values_]:=Round[values, increment]
+

@@ -1,0 +1,249 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9340,        241]
+NotebookOptionsPosition[      7719,        210]
+NotebookOutlinePosition[      8115,        226]
+CellTagsIndexPosition[      8072,        223]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "@", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "\"\<src/sampling.wl\>\""}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"<<", "\"\<src/export.wl\>\""}], "\n", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"concentrations", " ", "in", "  ", "in", " ", "mM"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"stockSolutions", "=", 
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"\"\<decanoic acid\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"50", ",", "10", ",", "2"}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<decanoate\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"50", ",", "10", ",", "2"}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<decylamine\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"50", ",", "10", ",", "2"}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<decyltrimethylammonium bromide\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"50", ",", "10", ",", "2"}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<decylsulfate\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"50", ",", "10", ",", "2"}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<decanol\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"15", ",", "3"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<monocaprin\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "2"}], "}"}]}]}], "\[RightAssociation]"}]}], ";"}],
+   "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"sample", " ", "concentrations"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"experiments", " ", "=", " ", 
+    RowBox[{"sampleConcentrations", "[", "96", "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"generate", " ", "dispense", " ", "volumes"}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"volumes", " ", "=", " ", 
+    RowBox[{"With", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"concentrations", " ", "=", " ", 
+        RowBox[{"Values", "[", "stockSolutions", "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"volumes", " ", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"discretizeVolume", "[", "0.5", "]"}], "/@", " ", 
+          RowBox[{"computeVolume", "[", 
+           RowBox[{"#", ",", "concentrations"}], "]"}]}], "&"}], "/@", 
+        "experiments"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"export", " ", "as", " ", "XLSX", " ", "files"}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{"exportSpreadsheet", "[", 
+  RowBox[{
+  "stockSolutions", ",", " ", "volumes", ",", " ", "\"\<foo.xlsx\>\""}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.904809667157181*^9, 3.9048096943021517`*^9}, {
+  3.904809732718053*^9, 3.904809744492627*^9}, {3.904816837845076*^9, 
+  3.90481683841158*^9}, {3.904819274319994*^9, 3.904819280263665*^9}, {
+  3.9048317912206497`*^9, 
+  3.90483181961377*^9}},ExpressionUUID->"ed4a3e2f-eb41-49d1-a52a-\
+1b455f23c68e"],
+
+Cell["Assumptions:", "Text",
+ CellChangeTimes->{{3.904832121075984*^9, 
+  3.904832122491971*^9}},ExpressionUUID->"2f45ad4c-eade-40e2-a7ce-\
+ad9fba3d70e6"],
+
+Cell["\<\
+Stock solutions are in (3.4 mL max).  Need to account for dead volume in \
+preparing solutions   \
+https://labware.opentrons.com/corning_24_wellplate_3.4ml_flat \
+\>", "Item",
+ CellChangeTimes->{{3.9048321307897367`*^9, 
+  3.9048321576440067`*^9}},ExpressionUUID->"b76689cd-b31c-46de-b1c7-\
+1472cf408fe2"],
+
+Cell["Experiments are in a 96-well plate?", "Item",
+ CellChangeTimes->{{3.9048321307897367`*^9, 
+  3.9048321702206984`*^9}},ExpressionUUID->"74eb15bd-10c0-45d9-ade9-\
+78d155c8f15c"],
+
+Cell["", "Item",
+ CellChangeTimes->{{3.9048321307897367`*^9, 
+  3.9048321628040257`*^9}},ExpressionUUID->"4806cdc2-f578-49ac-84cf-\
+f8a7e669d3a2"],
+
+Cell["To-do:", "Text",
+ CellChangeTimes->{{3.9048321769476748`*^9, 
+  3.904832179747829*^9}},ExpressionUUID->"df983479-e227-4ef6-af47-\
+6acb962a71aa"],
+
+Cell["\<\
+Some way of specifying the well-plates (or cook this into the opentron script)\
+\>", "Item",
+ CellChangeTimes->{{3.904832187299561*^9, 
+  3.904832199148795*^9}},ExpressionUUID->"e6da6b77-8aab-43ba-8891-\
+eb144fdf2f21"],
+
+Cell[CellGroupData[{
+
+Cell["Automate stock solution preparation ", "Item",
+ CellChangeTimes->{{3.904832187299561*^9, 3.904832208692953*^9}, {
+  3.904832249428206*^9, 
+  3.9048322494284973`*^9}},ExpressionUUID->"c4b97419-df2e-4c25-a7c8-\
+1fb324c7754c"],
+
+Cell["\<\
+Define an initialization protocol that generates the necessary dilutions; \
+user creates the 50 mM stock solutions in a volumetric flask and then the \
+initialization protocol creates the subsequent dilutions used.\
+\>", "Subitem",
+ CellChangeTimes->{{3.904832187299561*^9, 3.904832208692953*^9}, {
+  3.9048322498295937`*^9, 
+  3.904832252668642*^9}},ExpressionUUID->"093350c0-f2bd-4dda-ac53-\
+c9add5c1a930"],
+
+Cell["\<\
+TODO: CE Needs to think about how to prepare the dilutions appropriate and \
+what are the solvents used.\
+\>", "Subitem",
+ CellChangeTimes->{{3.904832187299561*^9, 3.904832208692953*^9}, {
+  3.9048322498295937`*^9, 
+  3.904832252115794*^9}},ExpressionUUID->"19751536-1602-4e64-b218-\
+2cb06c326275"]
+}, Open  ]],
+
+Cell["\<\
+Generalize to handle > 96 experiments (current spreadsheet code and opentrons \
+scripting only handles a single target plate)\
+\>", "Item",
+ CellChangeTimes->{{3.904832187299561*^9, 
+  3.9048322364036207`*^9}},ExpressionUUID->"f55785ee-b15e-4d11-9dbd-\
+73df2e3fce53"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Do we want to automate stock solution preparation (manually make the most \
+concentrated one and then have some fixed program that generates the others?)\
+\
+\>", "Item",
+ CellChangeTimes->{{3.9048199895669527`*^9, 3.9048200204310226`*^9}, {
+  3.9048201323024883`*^9, 3.904820136654768*^9}, {3.90482030635896*^9, 
+  3.904820322768237*^9}, {3.9048211427187433`*^9, 
+  3.904821142719145*^9}},ExpressionUUID->"3e051583-fb88-43d1-9b25-\
+4c4d19d3732d"],
+
+Cell["Yes?  ", "Subitem",
+ CellChangeTimes->{{3.9048199895669527`*^9, 3.9048200204310226`*^9}, {
+  3.9048201323024883`*^9, 3.904820136654768*^9}, {3.90482030635896*^9, 
+  3.904820322768237*^9}, {3.904821182853574*^9, 3.90482118402999*^9}, {
+  3.9048213060692263`*^9, 
+  3.904821308265441*^9}},ExpressionUUID->"2d1be721-01c2-45c9-b807-\
+fd80b6fc743a"]
+}, Open  ]],
+
+Cell["\<\
+MOVING FORWARD:  TODO: JS Generate two plates worth of experiments for the \
+initial random sample\
+\>", "Item",
+ CellChangeTimes->{{3.9048199895669527`*^9, 3.9048200204310226`*^9}, {
+  3.9048201323024883`*^9, 3.904820136654768*^9}, {3.90482030635896*^9, 
+  3.904820322768237*^9}, {3.904821182853574*^9, 3.90482118402999*^9}, {
+  3.9048213060692263`*^9, 3.904821345533597*^9}, {3.90482220915168*^9, 
+  3.9048222302956667`*^9}, {3.904822298952291*^9, 
+  3.904822321219705*^9}},ExpressionUUID->"6ff7c9cd-daad-4c6c-bf13-\
+c88093633216"]
+},
+WindowSize->{1086, 1030},
+WindowMargins->{{113, Automatic}, {Automatic, 74}},
+FrontEndVersion->"13.3 for Mac OS X x86 (64-bit) (July 24, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"21583c7b-853b-4387-adf3-8f2ada6e3ded"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3295, 82, 514, "Input",ExpressionUUID->"ed4a3e2f-eb41-49d1-a52a-1b455f23c68e"],
+Cell[3856, 104, 154, 3, 35, "Text",ExpressionUUID->"2f45ad4c-eade-40e2-a7ce-ad9fba3d70e6"],
+Cell[4013, 109, 315, 7, 53, "Item",ExpressionUUID->"b76689cd-b31c-46de-b1c7-1472cf408fe2"],
+Cell[4331, 118, 181, 3, 32, "Item",ExpressionUUID->"74eb15bd-10c0-45d9-ade9-78d155c8f15c"],
+Cell[4515, 123, 146, 3, 32, "Item",ExpressionUUID->"4806cdc2-f578-49ac-84cf-f8a7e669d3a2"],
+Cell[4664, 128, 150, 3, 35, "Text",ExpressionUUID->"df983479-e227-4ef6-af47-6acb962a71aa"],
+Cell[4817, 133, 228, 5, 32, "Item",ExpressionUUID->"e6da6b77-8aab-43ba-8891-eb144fdf2f21"],
+Cell[CellGroupData[{
+Cell[5070, 142, 229, 4, 32, "Item",ExpressionUUID->"c4b97419-df2e-4c25-a7c8-1fb324c7754c"],
+Cell[5302, 148, 418, 8, 45, "Subitem",ExpressionUUID->"093350c0-f2bd-4dda-ac53-c9add5c1a930"],
+Cell[5723, 158, 308, 7, 27, "Subitem",ExpressionUUID->"19751536-1602-4e64-b218-2cb06c326275"]
+}, Open  ]],
+Cell[6046, 168, 277, 6, 32, "Item",ExpressionUUID->"f55785ee-b15e-4d11-9dbd-73df2e3fce53"],
+Cell[CellGroupData[{
+Cell[6348, 178, 456, 9, 53, "Item",ExpressionUUID->"3e051583-fb88-43d1-9b25-4c4d19d3732d"],
+Cell[6807, 189, 350, 6, 27, "Subitem",ExpressionUUID->"2d1be721-01c2-45c9-b807-fd80b6fc743a"]
+}, Open  ]],
+Cell[7172, 198, 543, 10, 32, "Item",ExpressionUUID->"6ff7c9cd-daad-4c6c-bf13-c88093633216"]
+}
+]
+*)
+
